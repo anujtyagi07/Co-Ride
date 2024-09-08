@@ -1,0 +1,13 @@
+/* src/App.css */
+.admin-dashboard {
+    text-align: center;
+  }
+  
+  .admin-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  

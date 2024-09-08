@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+.mcont {
+    font-family: 'Roboto', sans-serif;
+    width: 99vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mcont .cont1-ct {
+    padding: 20px;
+    height: 24rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    color: white;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 0.001px dotted rgb(37, 178, 233);
+}
+
+.mcont .cont1-ct .ct {
+    display: flex;
+    justify-content: center;
+    margin: -3px 0 30px 0;
+    min-width: 20rem;
+    font-size: 28px;
+    font-weight: 500;
+    gap: 10px;
+    letter-spacing: 2px;
+}
+.mcont .cont1-ct .ct :nth-child(2) {
+    color: rgb(37, 178, 233);
+}
+
+.mcont .cont1-ct .from-ct {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mcont .cont1-ct .from-ct div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mcont .cont1-ct .from-ct div:nth-child(3) {
+    height: 3rem;
+    display: flex;
+}
+
+.mcont .cont1-ct .from-ct .start-location,
+.mcont .cont1-ct .from-ct .ctfi {
+    width: 12rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    height: 1.9rem;
+    padding: 0 9px;
+    border-radius: 5px;
+    font-size: 17px;
+    letter-spacing: 1.3px;
+    cursor: text;
+    color: white;
+    background-color: rgba(23, 28, 34, 0);
+    display: flex;
+    gap: 26px;
+}
+.mcont .cont1-ct .from-ct .ctfi:focus {
+    border: 1px solid rgb(37, 178, 233);
+    box-shadow: 0 0 2px rgb(37, 178, 233);
+}
+
+.mcont .cont1-ct .from-ct :nth-child(3) {
+    background-color: transparent;
+    margin: 2rem 0rem 2rem 0rem;
+}
+
+.mcont .cont1-ct .from-ct .ctfi1::-webkit-calendar-picker-indicator {
+    background-color: rgba(255, 255, 255, 0.312);
+}
+
+.mcont .cont1-ct .from-ct .ctfi2::-webkit-time-picker-indicator {
+    background-color: rgba(255, 255, 255, 0.312);
+}
+
+.mcont .cont1-ct .bt-ct {
+    display: flex;
+    justify-content: center;
+    margin: 22px 0 0 0;
+}
+
+.mcont .cont1-ct .bt-ct button {
+    border: none;
+    height: 2.2rem;
+    width: 7.5rem;
+    font-size: 16px;
+    padding: 6px;
+    background-color: rgb(37, 178, 233);
+    border: 1px solid rgb(37, 178, 233);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.mcont .cont1-ct .bt-ct button:hover {
+    background-color: rgb(31, 154, 202);
+    box-shadow: 0 0 10px rgba(37, 178, 233, 0.5);
+}
+
+.mcont .cont1-ct .bt-ct button:focus {
+    background-color: rgb(37, 178, 233);
+}
+
+@media (max-width: 700px) {
+    .mcont .cont1-ct {
+        width: 80%;
+    }
+}
