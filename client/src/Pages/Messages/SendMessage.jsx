@@ -5,7 +5,10 @@ import "./SendMessage.css";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
+import { useEffect } from "react";
+
 const SendMessage = ({ userInfo }) => {
+  
   const receiverId = userInfo.id;
   const [messageContent, setMessageContent] = useState("");
   const navigate = useNavigate();
@@ -24,6 +27,12 @@ const SendMessage = ({ userInfo }) => {
       console.log(error);
     }
   };
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="send-message-container">

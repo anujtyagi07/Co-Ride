@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import Modal from "react-modal";
 import { IoSend } from "react-icons/io5";
-
+import { useNavigate } from "react-router-dom";
 Modal.setAppElement("#root");
 
 const Notification = () => {
@@ -16,7 +16,7 @@ const Notification = () => {
   const [newMessageContent, setNewMessageContent] = useState("");
 
   const { isNotifications } = useSelector((state) => state.user);
-
+  const navigate=useNavigate();
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -77,6 +77,12 @@ const Notification = () => {
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     },
   };
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="notification-container">
