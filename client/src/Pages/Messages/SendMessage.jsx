@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
 import { useEffect } from "react";
-
+import { useSelector } from "react-redux";
 const SendMessage = ({ userInfo }) => {
   
   const receiverId = userInfo.id;

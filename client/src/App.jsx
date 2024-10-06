@@ -20,7 +20,7 @@ import AdminLogin from './Pages/admin login/AdminLogin'
 
 // import Footer from "../src/Components/footer.jsx"
 import AdminDashboard from './Pages/admin/AdminDashboard'
-import ChatHome from './Pages/notifications/ChatHome'
+
 function App() {
 
 
@@ -38,7 +38,7 @@ function App() {
         <Route path='/notifications' element={<Notification/>} />
         <Route path='/admin/login' element={<AdminLogin/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />
-        <Route path='/chat' element={<ChatHome/>} />
+        <Route path='/chat' element={<Notification/>} />
         <Route path='/loadcheck' element={<Loading/>} />
         
         <Route path='/trips/:id' element={<TripInfoCard/>} />
