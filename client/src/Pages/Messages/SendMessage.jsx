@@ -8,26 +8,26 @@ import { IoSend } from "react-icons/io5";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const SendMessage = ({ userInfo }) => {
-  
+  const { isAuthenticated, loading,user } = useSelector((state) => state.user);
+  const senderId=user.userOrAdmin._id;
   const receiverId = userInfo.id;
   const [messageContent, setMessageContent] = useState("");
   const navigate = useNavigate();
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/message/send", {
-        receiverId,
-        messageContent,
-      });
-      toast.success("message sent!");
-      navigate("/");
+      const {data}=await axios.post(`/chat`,{senderId,receiverId});
+      const chatId=data._id;
+      navigate('/notifications')
+      
+      
     } catch (error) {
       console.log(error);
     }
   };
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/");

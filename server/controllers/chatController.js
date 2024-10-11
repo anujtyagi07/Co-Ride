@@ -1,16 +1,32 @@
 import ChatModel from "../models/chatModel.js";
 
 export const createChat = async (req, res) => {
-  const newChat = new ChatModel({
-    members: [req.body.senderId, req.body.receiverId],
-  });
+  const { senderId, receiverId } = req.body;
+
   try {
+    // Check if a chat already exists between the sender and receiver
+    const existingChat = await ChatModel.findOne({
+      members: { $all: [senderId, receiverId] }
+    });
+
+    if (existingChat) {
+      // If chat already exists, return it
+      return res.status(200).json(existingChat);
+    }
+
+    // If chat does not exist, create a new one
+    const newChat = new ChatModel({
+      members: [senderId, receiverId],
+    });
+
     const result = await newChat.save();
     res.status(200).json(result);
+    
   } catch (error) {
     res.status(500).json(error);
   }
 };
+
 
 export const userChats = async (req, res) => {
   try {

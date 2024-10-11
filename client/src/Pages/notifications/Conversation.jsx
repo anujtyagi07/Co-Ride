@@ -35,7 +35,7 @@ const Conversation = ({ data, currentUserId, onClick }) => {
           <img src={userData?.user?.avatar?.url} className="followerImage" />
           <div className="name" style={{ fontSize: "0.8rem" }}>
             <span>
-              {userData?.firstname} {userData?.lastname}
+              {userData?.user.name}
             </span>
           </div>
           <span>Online</span>

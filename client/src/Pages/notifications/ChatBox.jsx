@@ -18,7 +18,7 @@ const ChatBox = ({ chat, currentUser }) => {
       try {
         const { data:user } = await axios.get(`http://localhost:3000/user/${userId}`);
         setUserData(user);
-        console.log(userData);
+        console.log(user);
         
       } catch (error) {
         console.log(error);
@@ -68,7 +68,7 @@ const ChatBox = ({ chat, currentUser }) => {
       <div className="chat-header">
         <div>
           <div className="online-dot"></div>
-          <img src={userData.user.avatar.url} alt="" className="followerImage" />
+          <img src={userData?.user?.avatar.url} alt="" className="followerImage" />
           <div className="name">
             <span>
               {userData?.user.name}

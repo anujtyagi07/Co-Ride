@@ -52,29 +52,29 @@ const TripInfoCard = ({ trip }) => {
         <div className="profile-box">
           <div className="container-prof">
             <div className="container-prof2">
-            <div className="img">
-              <img src={userInfo?.avatar?.url} alt="" />
+              <div className="img">
+                <img src={userInfo?.avatar?.url} alt="" />
+              </div>
+              <div className="container2-prof">
+                <div className="name cont5-prof">
+                  <span>Name: </span>
+                  <span>{userInfo.name}</span>
+                </div>
+                <div className="mail cont5-prof">
+                  <span>Email: </span>
+                  <span>{userInfo.email}</span>
+                </div>
+                <div className="start cont5-prof">
+                  <span>Start: </span>
+                  <span>{userInfo.startLocation}</span>
+                </div>
+                <div className="dest cont5-prof">
+                  <span>Destionation: </span>
+                  <span>{userInfo.destination}</span>
+                </div>
+              </div>
             </div>
-            <div className="container2-prof">
-              <div className="name cont5-prof">
-                <span>Name: </span>
-                <span>{userInfo.name}</span>
-              </div>
-              <div className="mail cont5-prof">
-                <span>Email: </span>
-                <span>{userInfo.email}</span>
-              </div>
-              <div className="start cont5-prof">
-                <span>Start: </span>
-                <span>{userInfo.startLocation}</span>
-              </div>
-              <div className="dest cont5-prof">
-                <span>Destionation: </span>
-                <span>{userInfo.destination}</span>
-              </div>
-            </div>
-            </div>
-              <SendMessage userInfo={userInfo} />
+            <SendMessage userInfo={userInfo} />
           </div>
         </div>
       )}
