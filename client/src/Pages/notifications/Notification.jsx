@@ -1,174 +1,76 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./Notification.css";
-import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import Modal from "react-modal";
-import { IoSend } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-Modal.setAppElement("#root");
+import axios from "axios";
+import ChatBox from "./ChatBox";
+import Conversation from "./Conversation";
 
-const Notification = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedReceiver, setSelectedReceiver] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [newMessageContent, setNewMessageContent] = useState("");
+const Chat = () => {
+  const [chats, setChats] = useState([]);
+  const { user } = useSelector((state) => state.user);
+  const userId=user.userOrAdmin._id;
+  
+  const [currentChat, setCurrentChat] = useState(null);
 
-  const { isNotifications } = useSelector((state) => state.user);
-  const navigate=useNavigate();
+  // Fetch the list of chats
   useEffect(() => {
-    const fetchMessages = async () => {
+    const getChats = async () => {
       try {
-        const { data } = await axios.get("/user/me");
-        setCurrentUser(data.user);
-
-        const response = await axios.get("/message/view");
-        const filteredMessages = response.data.messages.filter(
-          (message) =>
-            message.sender &&
-            message.receiver &&
-            message.sender._id &&
-            message.receiver._id &&
-            message.sender._id !== message.receiver._id
+        const { data } = await axios.get(
+          `http://localhost:3000/chat/${userId}`
         );
-        setMessages(filteredMessages);
-        toast.success("All messages received");
+        setChats(data);
+        console.log(data);
       } catch (error) {
-        toast.error("Failed to fetch messages");
+        console.log(error);
       }
     };
+    getChats();
+  }, [user]);
 
-    fetchMessages();
-  }, []);
-
-  const handleSendMessage = (receiver) => {
-    setSelectedReceiver(receiver);
-    setModalIsOpen(true);
+  // Function to handle when a conversation is clicked
+  const handleConversationClick = (chat, userData) => {
+    setCurrentChat(chat);
+    // Log the first name and last name of the clicked user
+    console.log(userData);
   };
-
-  const handleNewMessage = async (e) => {
-    e.preventDefault();
-    if (newMessageContent.trim() === "") return;
-
-    try {
-      const response = await axios.post("/message/send", {
-        receiverId: selectedReceiver._id,
-        messageContent: newMessageContent,
-      });
-      setMessages((prevMessages) => [...prevMessages, response.data.message]);
-      setNewMessageContent("");
-      toast.success("Message sent!");
-    } catch (error) {
-      toast.error("Failed to send message");
-    }
-  };
-
-  const customModalStyles = {
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-      maxWidth: "500px",
-      margin: "auto",
-      padding: "20px",
-      borderRadius: "10px",
-      backgroundColor: "#ffffff",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    },
-  };
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated]);
 
   return (
-    <div className="notification-container">
-      <div className="chat-container">
-        <div className="user-list">
-          <h2>Senders</h2>
-          <ul>
-            {messages
-              .filter(
-                (msg, index, self) =>
-                  msg.sender &&
-                  msg.sender._id &&
-                  index ===
-                    self.findIndex(
-                      (t) => t.sender && t.sender._id === msg.sender._id
-                    )
-              )
-              .map((message) => (
-                <li
-                  key={message.sender._id}
-                  onClick={() => handleSendMessage(message.sender)}
-                  className="user-item"
-                >
-                  {message.sender.name}
-                </li>
-              ))}
-          </ul>
-        </div>
-        <div className="chat-info">
-          {selectedReceiver ? (
-            <>
-              <h2>
-                <span>Chat with </span>
-                <span>{selectedReceiver.name}</span>
-              </h2>
-              <div className="chat-messages">
-                {messages
-                  .filter(
-                    (msg) =>
-                      msg.sender &&
-                      msg.receiver &&
-                      msg.sender._id &&
-                      msg.receiver._id &&
-                      ((msg.sender._id === currentUser._id &&
-                        msg.receiver._id === selectedReceiver._id) ||
-                      (msg.sender._id === selectedReceiver._id &&
-                        msg.receiver._id === currentUser._id))
-                  )
-                  .map((msg) => (
-                    <div
-                      key={msg._id}
-                      className={`chat-message ${
-                        msg.sender._id === currentUser._id ? "sent" : "received"
-                      }`}
-                    >
-                      <div className="chat-message-body">
-                        <p>{msg.message}</p>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-              <form className="send-message-form" onSubmit={handleNewMessage}>
-                <input
-                  type="text"
-                  placeholder="Type a message"
-                  value={newMessageContent}
-                  onChange={(e) => setNewMessageContent(e.target.value)}
+    <div className="Chat">
+      {/* left side */}
+      <div className="Left-side-chat">
+        <div className="Chat-container">
+          <h2>Chats</h2>
+          <div className="Chat-list">
+            {chats.map((chat) => (
+              <div
+                style={{ backgroundColor: "red" }}
+                onClick={() => {}}
+                key={chat._id}
+              >
+                <Conversation
+                  data={chat}
+                  currentUserId={userId}
+                  onClick={(userData) =>
+                    handleConversationClick(chat, userData)
+                  }
                 />
-                <button type="submit">
-                  <IoSend />
-                </button>
-              </form>
-            </>
-          ) : (
-            currentUser && (
-              <p className="p">
-                <span>Welcome 👋 {currentUser.name}</span>
-                <span>Select a chat to start</span>
-                <span>Messaging</span>
-              </p>
-            )
-          )}
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
+
+      {/* right side */}
+      <div className="Right-side-chat">
+        {/* chat body */}
+        <ChatBox
+          chat={currentChat}
+          currentUser={userId}
+        />
       </div>
     </div>
   );
 };
 
-export default Notification;
+export default Chat;

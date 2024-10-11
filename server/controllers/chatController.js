@@ -1,32 +1,35 @@
+import ChatModel from "../models/chatModel.js";
 
-import { Message } from '../models/messageModel';
-import { User } from '../models/userModel';
-
-export const sendMessage = async (req, res) => {
-    const { receiverId, content } = req.body;
-    const senderId = req.user.id; // Get from auth middleware
-
-    try {
-        const message = new Message({ sender: senderId, receiver: receiverId, content });
-        await message.save();
-        res.status(200).json({ message: 'Message sent', message });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to send message' });
-    }
+export const createChat = async (req, res) => {
+  const newChat = new ChatModel({
+    members: [req.body.senderId, req.body.receiverId],
+  });
+  try {
+    const result = await newChat.save();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-export const getMessages = async (req, res) => {
-    const userId = req.user.id;
-
-    try {
-        const messages = await Message.find({
-            $or: [{ sender: userId }, { receiver: userId }]
-        }).populate('sender receiver', 'name');
-
-        res.status(200).json({ messages });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch messages' });
-    }
+export const userChats = async (req, res) => {
+  try {
+    const chat = await ChatModel.find({
+      members: { $in: [req.params.userId] },
+    });
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-
+export const findChat = async (req, res) => {
+  try {
+    const chat = await ChatModel.findOne({
+      members: { $all: [req.params.firstId, req.params.secondId] },
+    });
+    res.status(200).json(chat)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+};

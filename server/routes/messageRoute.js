@@ -1,8 +1,10 @@
 import express from 'express';
-import { getChats, recieveMessages, sendMessage } from '../controllers/messageController.js';
-import { isAuthenticated } from '../middlewares/auth.js';
-export const messageRouter = express.Router();
+import {addMessage,getMessages} from '../controllers/messageController.js'
 
-messageRouter.post("/send", isAuthenticated, sendMessage);
-messageRouter.get("/view", isAuthenticated, recieveMessages);
-messageRouter.get("/chat/:id", isAuthenticated, getChats);
+const router = express.Router();
+
+router.post('/', addMessage);
+
+router.get('/:chatId', getMessages);
+
+export default router
