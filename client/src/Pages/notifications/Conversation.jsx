@@ -10,8 +10,10 @@ const Conversation = ({ data, currentUserId, onClick }) => {
     const fetchUserData = async () => {
       try {
         const userId = data.members.find((id) => id !== currentUserId);
-        const { data: user } = await axios.get(`http://localhost:3000/user/me`);
+        const { data: user } = await axios.get(`http://localhost:3000/user/${userId}`);
         setUserData(user);
+        
+        
       } catch (error) {
         console.log(error);
       }
@@ -30,7 +32,7 @@ const Conversation = ({ data, currentUserId, onClick }) => {
       <div className="follower conversation" onClick={handleClick}>
         <div>
           <div className="online-dot"></div>
-          <img alt="" className="followerImage" />
+          <img src={userData?.user?.avatar?.url} className="followerImage" />
           <div className="name" style={{ fontSize: "0.8rem" }}>
             <span>
               {userData?.firstname} {userData?.lastname}

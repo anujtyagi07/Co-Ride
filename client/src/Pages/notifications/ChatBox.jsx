@@ -12,10 +12,14 @@ const ChatBox = ({ chat, currentUser }) => {
 
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentUser);
+    console.log(userId);
+    
     const getUserData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3000/user/${userId}`);
-        setUserData(data);
+        const { data:user } = await axios.get(`http://localhost:3000/user/${userId}`);
+        setUserData(user);
+        console.log(userData);
+        
       } catch (error) {
         console.log(error);
       }
@@ -64,10 +68,10 @@ const ChatBox = ({ chat, currentUser }) => {
       <div className="chat-header">
         <div>
           <div className="online-dot"></div>
-          <img  alt="" className="followerImage" />
+          <img src={userData.user.avatar.url} alt="" className="followerImage" />
           <div className="name">
             <span>
-              {userData?.firstname} {userData?.lastname}
+              {userData?.user.name}
             </span>
           </div>
           <span>Online</span>

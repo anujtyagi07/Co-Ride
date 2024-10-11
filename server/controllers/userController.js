@@ -179,7 +179,7 @@ export const logout=async(req,res,next)=>{
 }
 
 
-export const getUserDetails=async(req,res,next)=>{
+export const getMyDetails=async(req,res,next)=>{
     try {
         
         const user=await User.findById(req.user.id);
@@ -192,3 +192,18 @@ export const getUserDetails=async(req,res,next)=>{
         return next(new ErrorHandler(error.message,error.statusCode))
     }
 }
+
+
+export const getUserDetails=async(req,res,next)=>{
+    try {
+        const user=await User.findById(req.params.id)
+        res.status(200).json({
+            success:true,
+            user,
+        })
+    } catch (error) {
+        
+    }
+}
+
+
