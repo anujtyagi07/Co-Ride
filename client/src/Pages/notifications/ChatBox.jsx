@@ -66,16 +66,10 @@ const ChatBox = ({ chat, currentUser }) => {
     <div className="ChatBox-container">
       {/* CHAT HEADER */}
       <div className="chat-header">
-        <div>
-          <div className="online-dot"></div>
-          <img src={userData?.user?.avatar.url} alt="" className="followerImage" />
+        <div><img src={userData?.user?.avatar.url} alt="" className="followerImage" /></div>
           <div className="name">
-            <span>
               {userData?.user.name}
-            </span>
           </div>
-          <span>Online</span>
-        </div>
       </div>
 
       {/* CHAT BODY */}
@@ -94,8 +88,8 @@ const ChatBox = ({ chat, currentUser }) => {
       {/* CHAT SENDER */}
       <div className="chat-sender">
         <div>+</div>
-        <InputEmoji value={newMessage} onChange={handleChange} />
-        <div className="send-button button" onClick={handleSend}>Send</div>
+        <InputEmoji value={newMessage} onChange={handleChange}/>
+        <button className="send-button button" onClick={handleSend} disabled={newMessage.length<=0}>Send</button>
       </div>
     </div>
   );

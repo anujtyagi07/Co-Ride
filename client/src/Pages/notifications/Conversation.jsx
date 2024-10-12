@@ -29,19 +29,14 @@ const Conversation = ({ data, currentUserId, onClick }) => {
 
   return (
     <>
-      <div className="follower conversation" onClick={handleClick}>
-        <div>
-          <div className="online-dot"></div>
-          <img src={userData?.user?.avatar?.url} className="followerImage" />
-          <div className="name" style={{ fontSize: "0.8rem" }}>
-            <span>
+      <div className="follower_conversation" onClick={handleClick}>
+        <div className="follower_conversation-in">
+          <div><img src={userData?.user?.avatar?.url} className="followerImage123" style={{backgroundColor:"transparent"}}/></div>
+          <div className="name">
               {userData?.user.name}
-            </span>
           </div>
-          <span>Online</span>
         </div>
       </div>
-      <hr/>
     </>
   );
 };

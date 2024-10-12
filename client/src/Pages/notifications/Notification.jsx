@@ -8,9 +8,10 @@ import Conversation from "./Conversation";
 const Chat = () => {
   const [chats, setChats] = useState([]);
   const { user } = useSelector((state) => state.user);
-  const userId=user.userOrAdmin._id;
-  
+  const userId = user.userOrAdmin._id;
+
   const [currentChat, setCurrentChat] = useState(null);
+  const [showChatList, setShowChatList] = useState(false); // State to control chat list visibility
 
   // Fetch the list of chats
   useEffect(() => {
@@ -35,16 +36,44 @@ const Chat = () => {
     console.log(userData);
   };
 
+  // Function to handle window resize
+  const handleResize = () => {
+    if (window.innerWidth > 776) {
+      setShowChatList(true); // Show chat list on larger screens
+    } else {
+      setShowChatList(false); // Hide chat list on smaller screens
+    }
+  };
+
+  // Attach the resize event listener
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check initial width
+
+    // Cleanup event listener on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="Chat">
+      {/* Show/Hide button */}
+      <div className="show-chat" onClick={() => {
+          if (window.innerWidth <= 776) {
+            setShowChatList(!showChatList);
+          }
+        }}>
+        {showChatList ? ' ☰ ' : ' ☰ '}
+      </div>
+
       {/* left side */}
-      <div className="Left-side-chat">
+      <div className="Left-side-chat" style={{ display: showChatList ? 'flex' : 'none' }}>
         <div className="Chat-container">
           <h2>Chats</h2>
           <div className="Chat-list">
             {chats.map((chat) => (
               <div
-                style={{ backgroundColor: "red" }}
                 onClick={() => {}}
                 key={chat._id}
               >
