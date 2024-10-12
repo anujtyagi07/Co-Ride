@@ -11,6 +11,7 @@ const Chat = () => {
   const userId = user.userOrAdmin._id;
 
   const [currentChat, setCurrentChat] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState(null); // Track the selected conversation
   const [showChatList, setShowChatList] = useState(false); // State to control chat list visibility
 
   // Fetch the list of chats
@@ -32,8 +33,11 @@ const Chat = () => {
   // Function to handle when a conversation is clicked
   const handleConversationClick = (chat, userData) => {
     setCurrentChat(chat);
-    // Log the first name and last name of the clicked user
+    setSelectedChatId(chat._id); // Set the selected chat ID to highlight the conversation
     console.log(userData);
+    if (window.innerWidth <= 776) {
+      setShowChatList(false); // Hide the chat list on mobile after selecting a conversation
+    }
   };
 
   // Function to handle window resize
@@ -60,14 +64,14 @@ const Chat = () => {
     <div className="Chat">
       {/* Show/Hide button */}
       <div className="show-chat" onClick={() => {
-          if (window.innerWidth <= 776) {
-            setShowChatList(!showChatList);
-          }
-        }}>
+        if (window.innerWidth <= 776) {
+          setShowChatList(!showChatList);
+        }
+      }}>
         {showChatList ? ' ☰ ' : ' ☰ '}
       </div>
 
-      {/* left side */}
+      {/* left side - Chat list */}
       <div className="Left-side-chat" style={{ display: showChatList ? 'flex' : 'none' }}>
         <div className="Chat-container">
           <h2>Chats</h2>
@@ -80,9 +84,8 @@ const Chat = () => {
                 <Conversation
                   data={chat}
                   currentUserId={userId}
-                  onClick={(userData) =>
-                    handleConversationClick(chat, userData)
-                  }
+                  onClick={(userData) => handleConversationClick(chat, userData)}
+                  selectedConversationId={selectedChatId} // Pass the selected chat ID
                 />
               </div>
             ))}
@@ -90,9 +93,8 @@ const Chat = () => {
         </div>
       </div>
 
-      {/* right side */}
+      {/* right side - ChatBox */}
       <div className="Right-side-chat">
-        {/* chat body */}
         <ChatBox
           chat={currentChat}
           currentUser={userId}
