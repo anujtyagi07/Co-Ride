@@ -12,8 +12,7 @@ const Chat = () => {
 
   const [currentChat, setCurrentChat] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
-  const [showChatList, setShowChatList] = useState(true); // Default to true to show chat list by default
-
+  const [showChatList, setShowChatList] = useState(true); 
   useEffect(() => {
     const getChats = async () => {
       try {
@@ -30,7 +29,7 @@ const Chat = () => {
     setCurrentChat(chat);
     setActiveChatId(chat._id);
 
-    // Hide the chat list if the screen width is <= 500px
+   
     if (window.innerWidth <= 500) {
       setShowChatList(false);
     }
@@ -38,16 +37,16 @@ const Chat = () => {
 
   const handleResize = () => {
     if (window.innerWidth > 776) {
-      setShowChatList(true); // Show chat list when screen is wider than 776px
+      setShowChatList(true);
     } else {
-      setShowChatList(false); // Hide chat list for smaller screens
+      setShowChatList(false); 
     }
   };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
 
-    // Clean up the event listener when the component is unmounted
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -60,7 +59,7 @@ const Chat = () => {
   return (
     <div className="Chat">
       <div className="show-chat" onClick={toggleChatList}>
-        ☰ {/* Can toggle the chat list */}
+        ☰
       </div>
 
       <div
