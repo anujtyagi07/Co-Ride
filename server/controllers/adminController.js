@@ -4,7 +4,9 @@ import ErrorHandler from "../middlewares/ErrorHandler.js";
 import { TempUser } from "../models/tempUser.js";
 import { User } from "../models/userModel.js";
 import { sendMail } from "../nodemailer/nodemailer.js";
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 export const adminRegister = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -29,6 +31,8 @@ export const adminRegister = async (req, res, next) => {
 
 export const adminLogin = async (req, res, next) => {
   try {
+    
+
     const { email, password } = req.body;
     if (!email || !password) {
       return next(new ErrorHandler("Enter everything", 200));
@@ -167,7 +171,6 @@ export const approveUser = async (req, res, next) => {
     return next(new ErrorHandler(error.message, error.statusCode));
   }
 };
-
 
 export const rejectUser = async (req, res, next) => {
   try {

@@ -21,7 +21,7 @@ dotenv.config()
 
 
 export const sendToken = (userOrAdmin, statusCode, res, isAdmin = false) => {
-    console.log("Admin Secret Key:", process.env.ADMIN_SECRET_KEY);
+    
     const secretKey = isAdmin ? process.env.USER_SECRET_KEY : process.env.ADMIN_SECRET_KEY;
     const token = jwt.sign({ id: userOrAdmin._id }, secretKey, {
         expiresIn: "2d", // Token expiration time

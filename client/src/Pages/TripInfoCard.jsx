@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import "./TripInfoCard.css";
 
+
 import Loading from "../Loader/Loading";
 import toast from "react-hot-toast";
 import SendMessage from "./Messages/SendMessage";
@@ -74,6 +75,7 @@ const TripInfoCard = ({ trip }) => {
                 </div>
               </div>
             </div>
+            
             <SendMessage userInfo={userInfo} />
           </div>
         </div>

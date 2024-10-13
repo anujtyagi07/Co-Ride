@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
+dotenv.config();
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -36,11 +38,11 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-userSchema.methods.getJWT = function () {
-  return jwt.sign({ id: this._id }, "MYSECRETKEY", {
-    expiresIn: "5d",
-  });
-};
+// userSchema.methods.getJWT = function () {
+//   return jwt.sign({ id: this._id }, process.env.USER_SECRET_KEY, {
+//     expiresIn: "5d",
+//   });
+// };
 
 userSchema.methods.comparePassword = async function (entered) {
   return await bcrypt.compare(entered, this.password);

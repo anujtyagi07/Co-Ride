@@ -58,35 +58,35 @@ const Chat = () => {
 
   return (
     <div className="Chat">
-      <div className="show-chat" onClick={toggleChatList}>
-        ☰
-      </div>
-
-      <div
-        className="Left-side-chat"
-        style={{ display: showChatList ? "flex" : "none" }}
-      >
-        <div className="Chat-container">
-          <h2>Chats</h2>
-          <div className="Chat-list">
-            {chats.map((chat) => (
-              <div key={chat._id}>
-                <Conversation
-                  data={chat}
-                  currentUserId={userId}
-                  activeChatId={activeChatId}
-                  onClick={(userData) => handleConversationClick(chat, userData)}
-                />
-              </div>
-            ))}
-          </div>
+    <div className="show-chat" onClick={toggleChatList}>
+      ☰
+    </div>
+  
+    <div
+      className="Left-side-chat"
+      style={{ display: showChatList ? "flex" : "none" }}
+    >
+      <div className="Chat-container">
+        <h2>Chats</h2>
+        <div className="Chat-list">
+          {chats.map((chat) => (
+            <div key={chat._id}>
+              <Conversation
+                data={chat}
+                currentUserId={userId}
+                activeChatId={activeChatId}
+                onClick={(userData) => handleConversationClick(chat, userData)}
+              />
+            </div>
+          ))}
         </div>
       </div>
-
-      <div className="Right-side-chat">
-        <ChatBox chat={currentChat} currentUser={userId} />
-      </div>
     </div>
+  
+    <div className="Right-side-chat">
+      <ChatBox chat={currentChat} currentUser={userId} />
+    </div>
+  </div>
   );
 };
 

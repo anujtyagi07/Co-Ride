@@ -23,8 +23,7 @@ export const isAuthenticated = async (req, res, next) => {
 export const isAuthenticatedAdmin = async (req, res, next) => {
     try {
         const { token } = req.cookies;
-        console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        console.log("Admin Secret Key auth.js:", process.env.ADMIN_SECRET_KEY);
+        
         if (!token) {
             return next(new ErrorHandler("You need to Login to Access this Resource", 401));
         }

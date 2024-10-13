@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
+
+dotenv.config({ path: './.env' });
 const getCurrentTime = () => {
     const date = new Date();
     const hours = String(date.getHours()).padStart(2, '0');
@@ -46,8 +49,11 @@ const administratorSchema = new mongoose.Schema({
     },
   ],
 });
+
+console.log(process.env.ADMIN_SECRET_KEY);
+
 administratorSchema.methods.getJWT = function () {
-  return jwt.sign({ id: this._id }, "MYSECRETKEY", {
+  return jwt.sign({ id: this._id }, process.env.USER_SECRET_KEY, {
     expiresIn: "5d",
   });
 };
@@ -56,3 +62,5 @@ export const Administrator = new mongoose.model(
   "Administrator",
   administratorSchema
 );
+
+
