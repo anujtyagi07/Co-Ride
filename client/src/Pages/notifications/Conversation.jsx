@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Conversation.css";
 
-const Conversation = ({ data, currentUserId, onClick, selectedConversationId }) => {
+const Conversation = ({ data, currentUserId, onClick, activeChatId }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,8 @@ const Conversation = ({ data, currentUserId, onClick, selectedConversationId }) 
         const { data: user } = await axios.get(`http://localhost:3000/user/${userId}`);
         setUserData(user);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching user data:", error);
+        setUserData({ user: { name: "Unknown", avatar: { url: "/default-avatar.png" } } });
       }
     };
     fetchUserData();
@@ -20,24 +21,24 @@ const Conversation = ({ data, currentUserId, onClick, selectedConversationId }) 
 
   const handleClick = () => {
     if (userData) {
-      onClick(userData);  // Pass the user data to the parent
+      onClick(userData);
     }
   };
 
-  const isSelected = userData?.user?._id === selectedConversationId;
+  const isActive = activeChatId === data._id;
 
   return (
-    <div className={`follower_conversation ${isSelected ? 'selected' : ''}`} onClick={handleClick}>
+    <div
+      className={`follower_conversation ${isActive ? "active-conversation" : ""}`}
+      onClick={handleClick}
+    >
       <div className="follower_conversation-in">
         <img
           src={userData?.user?.avatar?.url}
           className="followerImage123"
-          style={{ backgroundColor: "transparent" }}
           alt="Avatar"
         />
-        <div className="name">
-          {userData?.user?.name}
-        </div>
+        <div className="name">{userData?.user?.name}</div>
       </div>
     </div>
   );

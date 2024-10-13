@@ -23,6 +23,8 @@
     height: 7rem;
     border-radius: 80px;
     border: 2px solid rgb(37, 178, 233);
+    image-rendering: auto;
+    object-fit: cover;
 }
 .container-prof .container-prof2{
     border: 0.001px dotted rgb(37, 178, 233);

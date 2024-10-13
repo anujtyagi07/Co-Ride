@@ -11,81 +11,72 @@ const Chat = () => {
   const userId = user.userOrAdmin._id;
 
   const [currentChat, setCurrentChat] = useState(null);
-  const [selectedChatId, setSelectedChatId] = useState(null); // Track the selected conversation
-  const [showChatList, setShowChatList] = useState(false); // State to control chat list visibility
+  const [activeChatId, setActiveChatId] = useState(null);
+  const [showChatList, setShowChatList] = useState(true); // Default to true to show chat list by default
 
-  // Fetch the list of chats
   useEffect(() => {
     const getChats = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3000/chat/${userId}`
-        );
+        const { data } = await axios.get(`http://localhost:3000/chat/${userId}`);
         setChats(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     getChats();
-  }, [user]);
+  }, [userId]);
 
-  // Function to handle when a conversation is clicked
   const handleConversationClick = (chat, userData) => {
     setCurrentChat(chat);
-    setSelectedChatId(chat._id); // Set the selected chat ID to highlight the conversation
-    console.log(userData);
-    if (window.innerWidth <= 776) {
-      setShowChatList(false); // Hide the chat list on mobile after selecting a conversation
+    setActiveChatId(chat._id);
+
+    // Hide the chat list if the screen width is <= 500px
+    if (window.innerWidth <= 500) {
+      setShowChatList(false);
     }
   };
 
-  // Function to handle window resize
   const handleResize = () => {
     if (window.innerWidth > 776) {
-      setShowChatList(true); // Show chat list on larger screens
+      setShowChatList(true); // Show chat list when screen is wider than 776px
     } else {
-      setShowChatList(false); // Hide chat list on smaller screens
+      setShowChatList(false); // Hide chat list for smaller screens
     }
   };
 
-  // Attach the resize event listener
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Check initial width
+    window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on unmount
+    // Clean up the event listener when the component is unmounted
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const toggleChatList = () => {
+    setShowChatList(!showChatList);
+  };
+
   return (
     <div className="Chat">
-      {/* Show/Hide button */}
-      <div className="show-chat" onClick={() => {
-        if (window.innerWidth <= 776) {
-          setShowChatList(!showChatList);
-        }
-      }}>
-        {showChatList ? ' ☰ ' : ' ☰ '}
+      <div className="show-chat" onClick={toggleChatList}>
+        ☰ {/* Can toggle the chat list */}
       </div>
 
-      {/* left side - Chat list */}
-      <div className="Left-side-chat" style={{ display: showChatList ? 'flex' : 'none' }}>
+      <div
+        className="Left-side-chat"
+        style={{ display: showChatList ? "flex" : "none" }}
+      >
         <div className="Chat-container">
           <h2>Chats</h2>
           <div className="Chat-list">
             {chats.map((chat) => (
-              <div
-                onClick={() => {}}
-                key={chat._id}
-              >
+              <div key={chat._id}>
                 <Conversation
                   data={chat}
                   currentUserId={userId}
+                  activeChatId={activeChatId}
                   onClick={(userData) => handleConversationClick(chat, userData)}
-                  selectedConversationId={selectedChatId} // Pass the selected chat ID
                 />
               </div>
             ))}
@@ -93,12 +84,8 @@ const Chat = () => {
         </div>
       </div>
 
-      {/* right side - ChatBox */}
       <div className="Right-side-chat">
-        <ChatBox
-          chat={currentChat}
-          currentUser={userId}
-        />
+        <ChatBox chat={currentChat} currentUser={userId} />
       </div>
     </div>
   );

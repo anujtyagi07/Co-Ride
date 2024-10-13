@@ -42,6 +42,8 @@
   object-fit:fill;
   border: 1px solid rgb(37, 178, 233);
   z-index: 1;
+  image-rendering: auto;
+  object-fit: cover;
 }
 .user-details-myacCard{
   padding:85px 15px 20px 15px;

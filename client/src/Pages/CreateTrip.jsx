@@ -8,18 +8,21 @@ import { useSelector } from "react-redux";
 import Autocomplete from "../Components/AutoComplete";
 import { run } from "../gemini api/Gemini";
 const CreateTrip = () => {
-  
   const [prompt, setPrompt] = useState("");
   const [generatedText, setGeneratedText] = useState("");
-  const handleGeminiSubmit=async()=>{
-    if(formData.startLocation==="" || formData.destination===""){
-      toast.error("Please enter both start and destination ")
+  const handleGeminiSubmit = async () => {
+    if (formData.startLocation === "" || formData.destination === "") {
+      toast.error("Please enter both start and destination");
+      return; // Early return if the fields are empty
     }
-    const response=await run(formData.startLocation,formData.destination);
-    
-    setGeneratedText(response);
-  }
 
+    try {
+      const response = await run(formData.startLocation, formData.destination);
+      setGeneratedText(response);
+    } catch (error) {
+      toast.error("Failed to fetch approximate fare");
+    }
+  };
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -119,13 +122,25 @@ const CreateTrip = () => {
         <div className="bt-ct">
           <button onClick={handleSubmit}>Create</button>
         </div>
-        <div className="gemini-container" >
-        
-        <button onClick={handleGeminiSubmit} style={{maxWidth:"100%",height:"100%",display:"flex",alignSelf:"center",margin:"5px auto"}} >get approximate fare</button>
-        {<p>{generatedText}</p>}
+        <div className="gemini-container">
+          <button
+            onClick={handleGeminiSubmit}
+            style={{
+              maxWidth: "100%",
+              height: "100%",
+              display: "flex",
+              alignSelf: "center",
+              margin: "5px auto",
+            }}
+          >
+            get approximate fare
+          </button>
+          <p>
+            <span>Fare:</span>
+            <span>{generatedText}</span>
+          </p>
+        </div>
       </div>
-      </div>
-      
     </div>
   );
 };
