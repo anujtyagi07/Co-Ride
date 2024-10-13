@@ -83,7 +83,8 @@ export const register = async (req, res, next) => {
     res.status(200).json({
       success: true,
       tempUser,
-      message: "Verification request sent to your college email please verify there"
+      message: "Verification request sent to your college email please verify there",
+      
     });
 
         // const file = req.files.avatar;

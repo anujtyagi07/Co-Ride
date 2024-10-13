@@ -5,6 +5,8 @@ import { getRequests } from '../../Action Creators/AdminAction';
 import SenderCard from './SenderCard';
 import './AdminDashboard.css';
 import Loading from '../../Loader/Loading';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -29,8 +31,21 @@ const AdminDashboard = () => {
     return <Loading />;
   }
 
+  const adminLogout=async()=>{
+    try {
+      const {data}=await axios.get('/admin/logout');
+      toast.success(data.message);
+      navigate('/admin/login')
+    } catch (error) {
+      toast.error('error in admin ')
+    }
+  }
+
   return (
     <div className="admin-dashboard">
+      <div className="admin-logout">
+        <button onClick={adminLogout} >Logout</button>
+      </div>
       <h1>Senders</h1>
       
       <div className="admin-cards-container">

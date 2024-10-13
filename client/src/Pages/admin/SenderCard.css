@@ -9,6 +9,12 @@
     align-items: center;
     gap: 10px;
     color: white;
+    background-color: #ccc;
+  }
+
+  .card img{
+    width: 10rem;
+    height: 10rem;
   }
   
   .spinner {
@@ -28,6 +34,7 @@
   .card h2 {
     margin: 0;
     font-size: 1.2em;
+    color: black;
   }
   
   .card p {
@@ -51,3 +58,7 @@
     cursor: not-allowed;
   }
   
+  .card:hover{
+    border: 2px solid black;
+    transition: 0.2s ease-in;
+  }

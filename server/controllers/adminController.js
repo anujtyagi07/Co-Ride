@@ -167,3 +167,55 @@ export const approveUser = async (req, res, next) => {
     return next(new ErrorHandler(error.message, error.statusCode));
   }
 };
+
+
+export const rejectUser = async (req, res, next) => {
+  try {
+    const user = await TempUser.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+
+    // Remove user from TempUser collection
+    await TempUser.findOneAndDelete({ _id: req.params.id });
+
+    // Find the admin who was associated with this user
+    const admin = await Administrator.findOne({ email: user.adminEmail });
+    if (!admin) {
+      return next(new ErrorHandler("Administrator not found", 404));
+    }
+
+    // Remove the sender from the admin's senders list
+    admin.senders = admin.senders.filter(
+      (sender) => sender.senderId.toString() !== user._id.toString()
+    );
+
+    // Save the updated admin document
+    await admin.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User rejected successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    return next(new ErrorHandler(error.message, error.statusCode));
+  }
+};
+
+export const adminLogout = async (req, res, next) => {
+  try {
+    res.cookie("token", null, {
+      expires: new Date(Date.now()), // Expire the cookie immediately
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    return next(new ErrorHandler(error.message, error.statusCode));
+  }
+};

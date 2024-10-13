@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  let { isAuthenticated, loading } = useSelector((state) => state.user);
 
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(ProfilePhoto);
@@ -39,7 +39,9 @@ function Register() {
       try {
         const response = await dispatch(register(formData));
         if(response.success){
-          toast.success(response.message)
+          toast.success(response.message);
+          loading=false;
+          navigate('/')
         }
         
       } catch (error) {
@@ -73,6 +75,7 @@ function Register() {
     <Loading />
   ) : (
     <div className="register-container">
+      
       <div className="registration-container">
         <div className="picture">
           <img src={avatarPreview} alt="Avatar Preview" />
