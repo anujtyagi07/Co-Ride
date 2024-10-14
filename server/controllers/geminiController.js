@@ -1,8 +1,9 @@
 import axios from 'axios'
-
+import dotenv from 'dotenv'
+dotenv.config()
 export const generateText=async(req,res,next)=>{
     const prompt = req.body.prompt;
-  const apiKey ="AIzaSyAGJv0qQmYu7Yt2yfUkL4QFCNKjNtejpEM";
+  const apiKey =process.env.GEMINI_API_KEY;
 
   try {
     const response = await axios.post('https://api.gemini.com/v1/generate', {

@@ -6,11 +6,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 export const isAuthenticated = async (req, res, next) => {
     try {
+        console.log("AUTH.JS , ",process.env.USER_SECRET_KEY);
+        
         const { token } = req.cookies;
         if (!token) {
             return next(new ErrorHandler("You need to Login to Access this Resource", 401));
         }
-
+        console.log("auth.js ",process.env.USER_SECRET_KEY);
+        
         const decodedData = jwt.verify(token, process.env.USER_SECRET_KEY);
         req.user = await User.findById(decodedData.id);
         next();

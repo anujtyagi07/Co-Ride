@@ -1,52 +1,35 @@
-/*
- * Install the Generative AI SDK
- *
- * $ npm install @google/generative-ai
- *
- * See the getting started guide for more information
- * https://ai.google.dev/gemini-api/docs/get-started/node
- */
 
-// const {
-//     GoogleGenerativeAI,
-//     HarmCategory,
-//     HarmBlockThreshold,
-//   } = require("@google/generative-ai");
-import {GoogleGenerativeAI,HarmCategory,HarmBlockThreshold} from "@google/generative-ai"
-  
-  const apiKey = "AIzaSyAGJv0qQmYu7Yt2yfUkL4QFCNKjNtejpEM";
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+
+// Use import.meta.env for environment variables in Vite
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+const genAI = new GoogleGenerativeAI(apiKey);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+});
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 64,
+  maxOutputTokens: 8192,
+  responseMimeType: "text/plain",
+};
+
+export async function run(startLocation, destination) {
+  const chatSession = model.startChat({
+    generationConfig,
+    history: [],
   });
-  
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  
-  export async function run(startLocation,destination) {
-    const chatSession = model.startChat({
-      generationConfig,
-   // safetySettings: Adjust safety settings
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-    const updatedPrompt=filterPrompt(prompt)
-    const result = await chatSession.sendMessage(`approximate fare from ${startLocation} to ${destination} in bengaluru with cab at 1pm give only price and no extra information
-    `);
-    console.log(result.response.text());
-    return result.response.text()
-    
-  }
-  
-  const filterPrompt=async(prompt)=>{
-    return `
-    `;
-    }
-  
+
+  const result = await chatSession.sendMessage(`approximate fare from ${startLocation} to ${destination} in Bengaluru with a cab at 1 pm. Give only the price and no extra information.`);
+  console.log(result.response.text());
+  return result.response.text();
+}
+
+const filterPrompt = async (prompt) => {
+  return '';
+};

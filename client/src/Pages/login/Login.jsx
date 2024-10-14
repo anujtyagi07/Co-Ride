@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Loading from "../../Loader/Loading";
 import { bouncy } from 'ldrs'
 
+
 bouncy.register()
 
 // Default values shown
