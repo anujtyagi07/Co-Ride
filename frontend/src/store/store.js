@@ -1,0 +1,6 @@
+export { store, default } from './index'
+export * from './slices/authSlice'
+export * from './slices/tripSlice'
+export * from './slices/bookingSlice'
+export * from './slices/walletSlice'
+export * from './slices/adminSlice'

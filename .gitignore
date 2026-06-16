@@ -1,0 +1,61 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+build
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+# .env.example files are intentionally tracked — they document required config.
+!.env.example
+!.env.production
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS files
+Thumbs.db
+
+# Test coverage
+coverage
+
+# Temporary files
+*.tmp
+.cache
+
+# Qoder / AI assistant
+.qoder
+.claude
+
+# Deployment
+.vercel
+.vercel-temp
+.netlify
+dist
+*.tsbuildinfo
+
+# Test artifacts
+TEST SC/*.tmp
