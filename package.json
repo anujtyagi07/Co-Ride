@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "vercel-build": "npm install --prefix frontend && npm run build --prefix frontend",
+    "vercel-build": "cd frontend && npm install && npm run build",
     "vercel-install": "npm install --prefix backend"
   }
 }
