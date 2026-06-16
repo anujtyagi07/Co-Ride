@@ -3,7 +3,7 @@
   "version": 2,
 
   "installCommand": "npm install --prefix backend",
-  "buildCommand": "npm install --prefix frontend && npm run build --prefix frontend",
+  "buildCommand": "sh build.sh",
   "outputDirectory": "frontend/dist",
 
   "functions": {
